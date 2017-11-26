@@ -7,11 +7,12 @@ Shader "Ocean/Shape/Wave Particle"
 	{
 		_Amplitude( "Amplitude", float ) = 1
 		_Radius( "Radius", float) = 3
+    _Choppiness("Choppiness", float) = 1.0
 	}
 
 	Category
 	{
-		Tags { "Queue"="Geometry" }
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
 
 		SubShader
 		{
@@ -19,71 +20,62 @@ Shader "Ocean/Shape/Wave Particle"
 			{
 				Name "BASE"
 				Tags { "LightMode" = "Always" }
+        ZWrite Off
 				Blend One One
 			
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
 				#pragma multi_compile_fog
+        #pragma multi_compile_instancing
 				#include "UnityCG.cginc"
 
 				struct appdata_t {
 					float4 vertex : POSITION;
-					float2 texcoord : TEXCOORD0;
+          UNITY_VERTEX_INPUT_INSTANCE_ID
 				};
 
 				struct v2f {
 					float4 vertex : SV_POSITION;
-					float3 worldOffsetNorm : TEXCOORD0;
+          float2 offsetXZ : TEXCCORD0;
 				};
 
-				uniform float _TexelsPerWave;
+        uniform float _Amplitude;
 				uniform float _Radius;
-
-				bool SamplingIsAdequate( float minWavelengthInShape )
-				{
-					const float cameraWidth = 2. * unity_OrthoParams.x;
-					const float renderTargetRes = _ScreenParams.x;
-					const float texSize = cameraWidth / renderTargetRes;
-					const float minWavelength = texSize * _TexelsPerWave;
-					return minWavelengthInShape > minWavelength;
-				}
-
+        uniform float _Choppiness;
+        
 				v2f vert( appdata_t v )
 				{
 					v2f o;
-					o.vertex = UnityObjectToClipPos( v.vertex );
 
-					float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
-					o.worldOffsetNorm = worldPos - mul( unity_ObjectToWorld, float4(0., 0., 0., 1.) ).xyz;
-					o.worldOffsetNorm /= _Radius;
+          o.offsetXZ = v.vertex.xy * 2.0;  // -1..1
 
-					// if wavelength is too small, kill this quad so that it doesnt render any shape
-					float wavelength = 2. * _Radius;
-					if( !SamplingIsAdequate(wavelength) )
-						o.vertex.xy *= 0.;
+          UNITY_SETUP_INSTANCE_ID(v);
+
+					o.vertex = UnityObjectToClipPos( float4(v.vertex.xyz, 1.0) );
 
 					return o;
 				}
 
-				uniform float _Amplitude;
-
 				float4 frag (v2f i) : SV_Target
 				{
-					float3 disp;
-
-					// power 4 smoothstep - no normalize needed
-					float r2 = dot( i.worldOffsetNorm.xz, i.worldOffsetNorm.xz );
-					if( r2 < 1. )
+					float4 disp = float4(0,0,0,0);
+          
+					if( dot(i.offsetXZ, i.offsetXZ) < 1.0 )
 					{
-						r2 = 1. - r2;
-						disp.y = r2 * r2 * _Amplitude;
+            float2 r_signed = i.offsetXZ;
+            float r = length(r_signed);
+            
+            const float PI = 3.14159265;
+            r *= PI;
 
-						// add some horizontal displacement to approximate circular motion of points on surface of water
-						disp.xz = -.35 * r2 * i.worldOffsetNorm.xz * _Radius;
+            disp.y = 0.5 * (cos(r) + 1) * _Amplitude;
+            disp.xz = normalize(i.offsetXZ) * (- _Choppiness * sin(r)) * (disp.y / _Amplitude);
+            
+            disp.w = 1.0;
 					}
 
-					return float4(disp, 1.0);
+					return disp;
 				}
 
 				ENDCG

@@ -204,9 +204,10 @@ Shader "Ocean/Ocean"
 					const float geomSquareSize = _GeomData.x;
 					float nstretch = 80.*geomSquareSize; // normals scaled with geometry
 					const float spdmulL = _GeomData.y;
+          const float time = 0.0f; //_MyTime;
 					half2 norm =
-						tex2D( _Normals, (v0*_MyTime*spdmulL + worldPosXZ) / nstretch ).wz +
-						tex2D( _Normals, (v1*_MyTime*spdmulL + worldPosXZ) / nstretch ).wz;
+						tex2D( _Normals, (v0*time*spdmulL + worldPosXZ) / nstretch ).wz +
+						tex2D( _Normals, (v1*time*spdmulL + worldPosXZ) / nstretch ).wz;
 
 					// blend in next higher scale of normals to obtain continuity
 					const float farNormalsWeight = _InstanceData.y;
@@ -217,8 +218,8 @@ Shader "Ocean/Ocean"
 						nstretch *= 2.;
 						const float spdmulH = _GeomData.z;
 						norm = lerp( norm,
-							tex2D( _Normals, (v0*_MyTime*spdmulH + worldPosXZ) / nstretch ).wz +
-							tex2D( _Normals, (v1*_MyTime*spdmulH + worldPosXZ) / nstretch ).wz,
+							tex2D( _Normals, (v0*time*spdmulH + worldPosXZ) / nstretch ).wz +
+							tex2D( _Normals, (v1*time*spdmulH + worldPosXZ) / nstretch ).wz,
 							nblend );
 					}
 
