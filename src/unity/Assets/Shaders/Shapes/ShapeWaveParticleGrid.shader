@@ -9,6 +9,7 @@ Shader "Ocean/Shape/Wave Particle Grid"
     _BaseGridSize ("Base Grid Size", float) = 32.0
     _NumGrids("NumGrids", float) = 3.0
     _GridDebug("GridDebug", int) = 0
+    _FlowDir("FlowDir", Vector) = (1,1,0,0)
 	}
 
 	Category
@@ -57,6 +58,8 @@ Shader "Ocean/Shape/Wave Particle Grid"
         uniform float _NumGrids;
         uniform int _GridDebug;
 
+        uniform float4 _FlowDir;
+
 				v2f vert( appdata_t v )
 				{
           v2f o;
@@ -66,25 +69,49 @@ Shader "Ocean/Shape/Wave Particle Grid"
 					return o;
 				}
 
+        float3 SampleWpGrid(sampler2D gridTex, float2 baseUv, float2 flowDir, float fTime)
+        {
+          float2 uv = baseUv - (flowDir / 2) * fTime * flowDir;
+          return tex2D(gridTex, uv).xyz;
+        }
+
 				float4 frag (v2f input) : SV_Target
 				{
           float2 baseUv = input.worldPos.xz / _BaseGridSize;
+          
+          float interval = 1.0;
+          float timeInt = _Time.x / (2.0 * interval);
+          float2 fTime = frac(float2(timeInt, timeInt * 0.5));
 
-          float3 wpGridDisp[4];
-          wpGridDisp[0] = tex2D(_WpGridTex1, baseUv * _WpGridTex1_ST.xy).xyz;
-          wpGridDisp[1] = tex2D(_WpGridTex2, baseUv * _WpGridTex2_ST.xy).xyz;
-          wpGridDisp[2] = tex2D(_WpGridTex3, baseUv * _WpGridTex3_ST.xy).xyz;
-          wpGridDisp[3] = tex2D(_WpGridTex4, baseUv * _WpGridTex4_ST.xy).xyz;
+          float3 wpGridDispA[4];
+          wpGridDispA[0] = SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy, _FlowDir, fTime.x);
+          wpGridDispA[1] = SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy, _FlowDir, fTime.x);
+          wpGridDispA[2] = SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy, _FlowDir, fTime.x);
+          wpGridDispA[3] = SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy, _FlowDir, fTime.x);
+
+          float3 wpGridDispB[4];
+          wpGridDispB[0] = SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy, _FlowDir, fTime.y);
+          wpGridDispB[1] = SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy, _FlowDir, fTime.y);
+          wpGridDispB[2] = SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy, _FlowDir, fTime.y);
+          wpGridDispB[3] = SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy, _FlowDir, fTime.y);
 
           int numGrids = (int)clamp(_NumGrids, 0.0, 4.0);
 
-          float3 disp = float3(0, 0, 0);
+          float3 dispA = float3(0, 0, 0);
+          float3 dispB = float3(0, 0, 0);
           for (int i = 0; i < numGrids; ++i)
-            disp += wpGridDisp[i];
+          {
+            dispA += wpGridDispA[i];
+            dispB += wpGridDispB[i];
+          }
 
-          if (_GridDebug > 0) 
-            disp = wpGridDisp[clamp(_GridDebug - 1, 0, 3)];
-
+          if (_GridDebug > 0)
+          {
+            dispA = wpGridDispA[clamp(_GridDebug - 1, 0, 3)];
+            dispB = wpGridDispB[clamp(_GridDebug - 1, 0, 3)];
+          }
+          
+          float3 disp = lerp(dispA, dispB, abs((2 * frac(timeInt) - 1)));
           return float4(disp, 1);
 				}
 
