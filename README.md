@@ -1,52 +1,97 @@
 
-# crest
+<img src="https://raw.githubusercontent.com/huwb/crest-oceanrender/master/logo/crest-oceanrender-logotype1.png" width="214">
 
-![Teaser](https://raw.githubusercontent.com/huwb/crest-oceanrender/master/img/teaser.png)  
-
-Contacts: **Huw Bowles** (@hdb1 , huw dot bowles at gmail dot com), **Daniel Zimmermann** (@DanyGZimmermann, infkdude at gmail dot com), **Chino Noris** (@chino_noris , chino dot noris at epost dot ch), **Beibei Wang** (bebei dot wang at gmail dot com)
+&nbsp;
 
 
-## Introduction
+# Intro
 
-*Crest* is a Unity3D implementation of a number of novel ocean rendering techniques published at SIGGRAPH 2017 in the *Advances in Real-Time Rendering* course (course page [link](http://advances.realtimerendering.com/s2017/index.html)).
+*Crest* is a technically advanced ocean renderer implemented in Unity3D 2018.2+.
 
-It demonstrates a number of techniques described in this course:
-
-* CDClipmaps - a new meshing approach that combines the simplicity of Clipmaps with the Continuous Detail of CDLOD.
-* GPU-based shape system - each LOD has an associated displacement texture which is rendered by the *WaveDataCam* game object by running generic Shape Shaders.
-* Normal map scaling - a technique to improve the range of view distances for which a set of normal maps will work.
-* Foam - two foam layers that are computed on the fly from the displacement textures.
-
-## How it Works
-
-On startup, the *OceanBuilder* script creates the ocean geometry as a LODs, each composed of geometry tiles and a shape camera to render the displacement texture for that LOD. It has the following parameters that are passed to it on startup from the OceanRenderer script:
-
-* Base Vert density - the base vert/shape texel density of an ocean patch. If you set the scale of a LOD to 1, this density would be the world space verts/m. More means more verts/shape, at the cost of more processing.
-* Lod Count - the number of levels of detail / scales of ocean geometry to generate. More means more dynamic range of usable shape/mesh at the cost of more processing.
-* Max Wave Height - this is just so that the ocean tiles bounding box height can be set, to ensure culling eliminates tiles correctly.
-* Max Scale - the ocean is scaled horizontally with viewer height, to keep the meshing suitable for elevated viewpoints. This sets the maximum the ocean will be scaled if set to a positive value.
-* Min Scale - this clamps the scale from below, to prevent the ocean scaling down to 0 when the camera approaches the sea level. This should be set to a low value gives lots of detail, but will limit the horizontal extents of the ocean as the detail scales have a limited dynamic range (set by the previous Lod Count parameter).
-
-At run-time, the ocean is placed in front of the viewer by the *SphereOffset* script, using the heuristic described in the course. The *ShapeCameras* will render any shape geometry that is assigned to the *WaveData* layer, to generate the displacement textures. Such geometry is grouped under the ShapeRender game object. A horizontal scale is compute for the ocean based on the viewer height, as well as a *_viewerAltitudeLevelAlpha* that captures where the camera is between the current scale and the next scale (x2), and allows a smooth transition between scales to be achieved using the two mechanisms described in the course.
-
-The ocean geometry itself as the Ocean shader attached. The vertex shader snaps the verts to grid positions to make them stable. It then computes a *lodAlpha* which starts at 0 for the inside of the LOD and becomes 1 at the outer edge. It is computed from taxicab distance as noted in the course. This value is used to drive the vertex layout transition, to enable a seemless match between the two. The vertex shader then samples the current LOD shape texture and the next shape texture and uses *lodAlpha* to interpolate them for a smooth transition across displacement textures. A foam value is also computed using the determinant of the Jacobian of the displacement texture. Finally, it passes the LOD geometry scale and *lodAlpha* to the pixel shader.
-
-The ocean pixel shader samples normal maps at 2 different scales, both proportional to the current and next LOD scales, and then interpolates the result using *lodAlpha* for a smooth transition. Two layers of foam are added based on different thresholds of the foam value, with black point fading used to blend them.
+![Teaser](https://raw.githubusercontent.com/huwb/crest-oceanrender/master/img/teaser5.png)
 
 
-## Update Order
+# Releases
 
-* __MonoBehaviour.Update()__
-  * CamController - moves viewer
-* __Unity Animation Update__
-* __MonoBehaviour.LateUpdate()__
-  * SphereOffset - place ocean in front of viewer
-  * OceanRenderer - set top transform for ocean - signed scale computed based on location
-  * OceanChunkRenderer - the ocean tiles which read their transforms (inherits top ocean transform)
-  * WaveDataCam - also updates based on the ocean transform
+Releases are published semi-regularly and posted on the [Releases page](https://github.com/huwb/crest-oceanrender/releases). Unity packages are uploaded with each release.
+Since development stability has historically been good, an option would be to grab the latest version from the master branch instead of waiting for releases.
+Be aware though that we actively refactor/cleanup/change the code to pay technical debt and fight complexity so integrations may require some fixup.
 
-## Bugs and Improvement Directions
+*Crest* exercises [semantic versioning](https://semver.org/) and follows the branching strategy outlined [here](https://gist.github.com/stuartsaunders/448036/5ae4e961f02e441e98528927d071f51bf082662f), although there is no develop branch used yet - development occurs on feature branches that are merged directly into master.
 
-* Each Gerstner wave is computed and blended into the displacement texture individually. This makes them very easy to work and convenient, but baking them down to a single pass would be an interesting optimisation direction.
-* While ocean geometry tiles are frustum culled, currently displacements are rendered for the entire world. Rendering a top down projection of the camera frustum geometry to seed the shape computation might be an interesting direction.
-* Ocean tiles are updated and drawn as separate draw calls. This is convenient for research and supports frustum culling easily, but it might make sense to instance these in a production scenario.
+
+# Setup
+
+The steps to set up *Crest* in a new or existing project currently look as follows. There is an example of all this running in *Crest-Examples/Scenes/main*.
+
+* Switch your project to Linear space rendering under *Edit > Project Settings > Player > Other Settings*. If your platform(s) require Gamma space, the material settings will need to be adjusted to compensate.
+* The *Crest* files are separated into the core files to import in any project and the example content. If you are getting started for the first time you may want to import both and then remove what you don't need from the example content. You can do this by either:
+  * Picking a release from the [Releases page](https://github.com/huwb/crest-oceanrender/releases) and importing the desired packages
+  * Getting latest by either cloning this repos or downloading it as a zip, and copying the *Crest* folder and the desired content from the *Crest-Examples* folders into your project. Be sure to always copy the .meta files.
+* Drag *Crest/Prefabs/Ocean.prefab* into your scene(s), set y coordinate to desired sea level. On startup, this will generate the ocean geometry and initialise the ocean systems.
+* Tag a primary camera as *MainCamera* if one is not tagged already, or provide the viewpoint transform to the *OceanRenderer* script on the preab.
+* Crest uses layers to render the different types of ocean data. It will throw errors in the log if a feature is turned on that requires a layer that is missing from the project. Most projects will require at least these two:
+  * *LodDataAnimatedWaves* - for Gerstner waves and other kinematic shape.
+  * *LodDataFoam* - for the foam simulation.
+* To add waves, create a new GameObject and add the *Shape Gerster Batched* component.
+  * On startup this script creates a default ocean shape. To edit the shape, create an asset of type *Crest/Ocean Wave Spectrum* and provide it to this script.
+  * Smooth blending of ocean shapes can be achieved by adding multiple *Shape Gerstner Batched* scripts and crossfading them using the *Weight* parameter.
+* For geometry that should influence the ocean (attenuate waves, generate foam):
+  * Static geometry should render ocean depth just once on startup into an *Ocean Depth Cache* - the island in the main scene in the example content demonstrates this.
+  * Dynamic objects that need to render depth every frame should have a *Render Ocean Depth* component attached.
+* Be sure to generate lighting from the Lighting window - the ocean lighting takes the ambient intensity from the baked spherical harmonics.
+
+Enjoy!
+
+
+# Configuration
+
+## Ocean Look and Behaviour
+
+* Ocean material / shading: The default ocean material *Ocean.mat* contains many tweakable variables to control appearance. Turn off unnecessary features to maximize performance.
+* Animated waves / ocean shape: Configured on the *ShapeGerstnerBatched* script by providing an *Ocean Wave Spectrum* asset. This asset has an equalizer-style interface for tweaking different scales of waves, and also has some parametric wave spectra from the literature for comparison.
+* Ocean foam: Configured on the *OceanRenderer* script by providing a *Sim Settings Foam* asset.
+* Dynamic wave simulation: Configured on the *OceanRenderer* script by providing a *Sim Settings Wave* asset.
+
+All settings can be live authored. When tweaking ocean shape it can be useful to freeze time (set *Time.timeScale* to 0) to clearly see the effect of each octave of waves.
+
+## Ocean Construction Parameters
+
+There are just two parameters that control the construction of the ocean shape and geometry:
+
+* **Base Vert density** - the base vert/shape texel density of an ocean patch. If you set the scale of a LOD to 1, this density would be the world space verts/m. More means more verts/shape, at the cost of more processing.
+* **Lod Count** - the number of levels of detail / scales of ocean geometry to generate. More means more dynamic range of usable shape/mesh at the cost of more processing.
+
+## Global Parameters
+
+* **Wind direction angle** - this global wind direction affects the ocean shape
+* **Max Scale** - the ocean is scaled horizontally with viewer height, to keep the meshing suitable for elevated viewpoints. This sets the maximum the ocean will be scaled if set to a positive value.
+* **Min Scale** - this clamps the scale from below, to prevent the ocean scaling down to 0 when the camera approaches the sea level. Low values give lots of detail, but will limit the horizontal extents of the ocean detail.
+
+
+# Technical Details and Contributions
+
+See the dedicated [TECHNOLOGY.md](https://github.com/huwb/crest-oceanrender/blob/master/TECHNOLOGY.md) doc.
+
+
+# Performance
+
+The foundation of *Crest* is architected for performance from the ground up with an innovative LOD system. However, out of the box it is configured for quality and flexibility rather than maximum efficiency.
+
+There are a number of directions for optimising the basic vanilla *Crest* that would make sense to explore in production scenarios to squeeze the maximum performance out of the system. See the dedicated [OPTIMISATION.md](https://github.com/huwb/crest-oceanrender/blob/master/OPTIMISATION.md) doc.
+
+
+# Issues
+
+If you encounter an issue, please search the [Issues page](https://github.com/huwb/crest-oceanrender/issues) to see if there is already a resolution, and if you don't find one then please report it as a new issue.
+
+There are a few known issues worth calling out:
+
+* *Crest* currently only works with the out of the box render pipelines in Unity (forward or deferred). It does not currently support *LWRP* or *HDRP*. If you would find such support useful, please feel free to comment in issue #49.
+* A non-backwards-compatible change was made to prefabs in Unity 2018.2, which means some of the example content prefabs may show up as *Missing* in previous versions. See issue #51.
+* Azure[Sky] requires some code to be added to the ocean shader for the fogging/scattering to work. This is a requirement of this product and apparently comes with instructions for what needs to be added. See issue #62.
+
+
+# Links
+
+Moved to [LINKS.md](https://github.com/huwb/crest-oceanrender/blob/master/LINKS.md).

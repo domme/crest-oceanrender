@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - OceanDepth
   layers:
   - Default
   - TransparentFX
@@ -13,14 +14,14 @@ TagManager:
   - UI
   - 
   - 
-  - WaveData
-  - WaveParticles
   - 
   - 
+  - EditorOnly
   - 
-  - 
-  - 
-  - 
+  - LodDataFoam
+  - LodDataAnimatedWaves
+  - LodDataDynamicWaves
+  - LodDataFlow
   - 
   - 
   - 
