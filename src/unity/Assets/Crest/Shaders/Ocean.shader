@@ -4,7 +4,7 @@ Shader "Ocean/Ocean"
 {
 	Properties
 	{
-		[Toggle] _ApplyNormalMapping("Apply Normal Mapping", Float) = 1
+		[Toggle] _ApplyNormalMapping("Apply Normal Mapping", Float) = 0
 		[NoScaleOffset] _Normals ( "    Normals", 2D ) = "bump" {}
 		_NormalsStrength("    Strength", Range(0.01, 2.0)) = 0.3
 		_NormalsScale("    Scale", Range(0.01, 50.0)) = 1.0
@@ -302,10 +302,10 @@ Shader "Ocean/Ocean"
 					half3 n_pixel = n_geom;
 					#if _APPLYNORMALMAPPING_ON
 					#if _APPLYFLOWTONORMALS_ON
-					ApplyNormalMapsWithFlow(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.flow, i.lodAlpha_worldXZUndisplaced_oceanDepth.x, n_pixel);
+					//ApplyNormalMapsWithFlow(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.flow, i.lodAlpha_worldXZUndisplaced_oceanDepth.x, n_pixel);
 					#else
-					n_pixel.xz += SampleNormalMaps(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.lodAlpha_worldXZUndisplaced_oceanDepth.x);
-					n_pixel = normalize(n_pixel);
+					//n_pixel.xz += SampleNormalMaps(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.lodAlpha_worldXZUndisplaced_oceanDepth.x);
+					//n_pixel = normalize(n_pixel);
 					#endif
 					#endif
 

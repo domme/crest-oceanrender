@@ -5,7 +5,6 @@ Shader "WaveParticles/Wave Particle"
 	Properties
 	{
 		_Amplitude( "Amplitude", float ) = 1
-		_Radius( "Radius", float) = 3
     _Choppiness("Choppiness", float) = 1.0
 	}
 
@@ -40,7 +39,6 @@ Shader "WaveParticles/Wave Particle"
 				};
 
         uniform float _Amplitude;
-				uniform float _Radius;
         uniform float _Choppiness;
         
 				v2f vert( appdata_t v )
@@ -74,7 +72,7 @@ Shader "WaveParticles/Wave Particle"
             disp.w = 1.0;
 					}
 
-					return disp;
+					return disp / 100.0;
 				}
 
 				ENDCG

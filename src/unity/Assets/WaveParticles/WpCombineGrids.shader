@@ -2,11 +2,6 @@ Shader "WaveParticles/WpCombineGrids"
 {
 	Properties
 	{
-    _WpGridTex1("Wave Particle Grid 1", 2D) = "" {}
-    _WpGridTex2("Wave Particle Grid 2", 2D) = "" {}
-    _WpGridTex3("Wave Particle Grid 3", 2D) = "" {}
-    _WpGridTex4("Wave Particle Grid 4", 2D) = "" {}
-    _BaseGridSize ("Base Grid Size", float) = 32.0
     _NumGrids("NumGrids", float) = 3.0
     _GridDebug("GridDebug", int) = 0
     _FlowDir("FlowDir", Vector) = (1,1,0,0)
@@ -41,18 +36,16 @@ Shader "WaveParticles/WpCombineGrids"
           float3 worldPos : TEXCOORD0;
         };
 
-        uniform float _BaseGridSize;
-
-        uniform sampler2D _WpGridTex1;
+        uniform sampler2D_float _WpGridTex1;
         uniform float4 _WpGridTex1_ST;
 
-        uniform sampler2D _WpGridTex2;
+        uniform sampler2D_float _WpGridTex2;
         uniform float4 _WpGridTex2_ST;
 
-        uniform sampler2D _WpGridTex3;
+        uniform sampler2D_float _WpGridTex3;
         uniform float4 _WpGridTex3_ST;
 
-        uniform sampler2D _WpGridTex4;
+        uniform sampler2D_float _WpGridTex4;
         uniform float4 _WpGridTex4_ST;
 
         uniform float _NumGrids;
@@ -72,12 +65,12 @@ Shader "WaveParticles/WpCombineGrids"
         float3 SampleWpGrid(sampler2D gridTex, float2 baseUv, float2 flowDir, float fTime)
         {
           float2 uv = baseUv - (flowDir / 2) * fTime * flowDir;
-          return tex2D(gridTex, uv).xyz;
+          return tex2Dlod(gridTex, float4(uv, 0, 0)).xyz;
         }
 
 				float4 frag (v2f input) : SV_Target
 				{
-          float2 baseUv = input.worldPos.xz / _BaseGridSize;
+          float2 baseUv = input.worldPos.xz / 32.0;
           
           float interval = 1.0;
           float timeInt = _Time.x / (2.0 * interval);
@@ -112,6 +105,9 @@ Shader "WaveParticles/WpCombineGrids"
           }
           
           float3 disp = lerp(dispA, dispB, abs((2 * frac(timeInt) - 1)));
+
+          disp = tex2D(_WpGridTex1, baseUv).xyz * 100;
+
           return float4(disp, 1);
 				}
 
