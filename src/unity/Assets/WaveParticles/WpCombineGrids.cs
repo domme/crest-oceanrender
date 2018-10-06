@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShapeWaveParticles : MonoBehaviour
+public class WpCombineGrids : MonoBehaviour
 {
   [Range(0.1f, 50.0f)]
   public float BaseGridScale = 1.0f;

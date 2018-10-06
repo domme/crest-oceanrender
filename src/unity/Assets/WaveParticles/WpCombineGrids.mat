@@ -4,13 +4,13 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WaveParticle
-  m_Shader: {fileID: 4800000, guid: 71c6d7ed617c5204faa46018761f872b, type: 3}
+  m_Name: WpCombineGrids
+  m_Shader: {fileID: 4800000, guid: e4e144a97e4921e479a08c9d02b65739, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -54,21 +54,41 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WpGridTex:
+        m_Texture: {fileID: 8400000, guid: eb1f6c300ee165344af52e0ad5707ac1, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WpGridTex1:
+        m_Texture: {fileID: 8400000, guid: eb1f6c300ee165344af52e0ad5707ac1, type: 2}
+        m_Scale: {x: 0.1, y: 0.1}
+        m_Offset: {x: 0, y: 0}
+    - _WpGridTex2:
+        m_Texture: {fileID: 8400000, guid: 71d096ef59cd45f43befeea880daaa12, type: 2}
+        m_Scale: {x: 0.41, y: 0.42}
+        m_Offset: {x: 0, y: 0}
+    - _WpGridTex3:
+        m_Texture: {fileID: 8400000, guid: 75616a77f5af86a4383e4da994c89334, type: 2}
+        m_Scale: {x: 1.2, y: 1.1}
+        m_Offset: {x: 0, y: 0}
+    - _WpGridTex4:
+        m_Texture: {fileID: 8400000, guid: 00decd3987bcad740a6f7740afbdcd7b, type: 2}
+        m_Scale: {x: 2.3, y: 2.1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Amplitude: 0.5
+    - _BaseGridSize: 32
     - _BumpScale: 1
-    - _Choppiness: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _GridDebug: 0
     - _Metallic: 0
     - _Mode: 0
+    - _NumGrids: 4
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Radius: 10
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -77,3 +97,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlowDir: {r: 3, g: 2, b: 0, a: 0}

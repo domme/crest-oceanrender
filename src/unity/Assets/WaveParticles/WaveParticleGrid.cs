@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class ShapeWaveParticleGrid : MonoBehaviour
+public class WaveParticleGrid : MonoBehaviour
 {
   public float velocity = 5.0f;
   public float choppiness = 1.0f;

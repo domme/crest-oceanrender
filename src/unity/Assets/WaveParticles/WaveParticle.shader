@@ -1,6 +1,6 @@
 // This file is subject to the MIT License as seen in the root of this folder structure (LICENSE)
 
-Shader "Ocean/Shape/Wave Particle"
+Shader "WaveParticles/Wave Particle"
 {
 	Properties
 	{
@@ -28,7 +28,6 @@ Shader "Ocean/Shape/Wave Particle"
 				#pragma multi_compile_fog
         #pragma multi_compile_instancing
 				#include "UnityCG.cginc"
-				#include "MultiscaleShape.hlsl"
 
 				struct appdata_t {
 					float4 vertex : POSITION;

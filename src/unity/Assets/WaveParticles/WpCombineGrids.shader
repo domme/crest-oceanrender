@@ -1,4 +1,4 @@
-Shader "Ocean/Shape/Wave Particle Grid"
+Shader "WaveParticles/WpCombineGrids"
 {
 	Properties
 	{
