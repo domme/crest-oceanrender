@@ -60,19 +60,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _WpGridTex1:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.123, y: 0.125}
         m_Offset: {x: 0, y: 0}
     - _WpGridTex2:
-        m_Texture: {fileID: 8400000, guid: 71d096ef59cd45f43befeea880daaa12, type: 2}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0.345, y: 0.346}
         m_Offset: {x: 0, y: 0}
     - _WpGridTex3:
-        m_Texture: {fileID: 8400000, guid: 75616a77f5af86a4383e4da994c89334, type: 2}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0.676, y: 0.634}
         m_Offset: {x: 0, y: 0}
     - _WpGridTex4:
-        m_Texture: {fileID: 8400000, guid: 00decd3987bcad740a6f7740afbdcd7b, type: 2}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1.235, y: 1.762}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BaseGridSize: 32
@@ -83,18 +83,19 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GridDebug: 1
+    - _GridDebug: 0
     - _Metallic: 0
     - _Mode: 0
-    - _NumGrids: 1
+    - _NumGrids: 4
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TwoScales: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FlowDir: {r: 0, g: 0, b: 0, a: 0}
+    - _FlowDir: {r: 1, g: 1.5, b: 0, a: 0}

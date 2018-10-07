@@ -66,13 +66,16 @@ Shader "WaveParticles/Wave Particle"
             const float PI = 3.14159265;
             r *= PI;
 
+            // disp.y = 0.5 * (cos(r) + 1) * _Amplitude;
+            // disp.xz = normalize(i.offsetXZ) * (-_Choppiness * sin(r)) * (disp.y / _Amplitude);
+
             disp.y = 0.5 * (cos(r) + 1) * _Amplitude;
-            disp.xz = normalize(i.offsetXZ) * (- _Choppiness * sin(r)) * (disp.y / _Amplitude);
+            disp.xz = -normalize(i.offsetXZ) * min(_Amplitude / 2, (_Choppiness) * sin(r));
             
             disp.w = 1.0;
 					}
 
-					return disp / 100.0;
+					return disp;
 				}
 
 				ENDCG

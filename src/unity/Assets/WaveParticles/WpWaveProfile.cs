@@ -9,6 +9,8 @@ public class WpWaveProfile : MonoBehaviour
   public float amplitude1 = 1.0f;
   public float choppiness1 = 0.1f;
   public float speed1 = 5.0f;
+  public float strength1 = 1.0f;
+  public float flowSpeed1 = 1.0f;
   public Vector2 gridScale1 = new Vector2(1.0f, 1.0f);
 
   [Space(10)]
@@ -17,6 +19,8 @@ public class WpWaveProfile : MonoBehaviour
   public float amplitude2 = 1.0f;
   public float choppiness2 = 0.1f;
   public float speed2 = 5.0f;
+  public float strength2 = 1.0f;
+  public float flowSpeed2 = 1.0f;
   public Vector2 gridScale2 = new Vector2(1.0f, 1.0f);
 
   [Space(10)]
@@ -25,6 +29,8 @@ public class WpWaveProfile : MonoBehaviour
   public float amplitude3 = 1.0f;
   public float choppiness3 = 0.1f;
   public float speed3 = 5.0f;
+  public float strength3 = 1.0f;
+  public float flowSpeed3 = 1.0f;
   public Vector2 gridScale3 = new Vector2(1.0f, 1.0f);
 
   [Space(10)]
@@ -33,6 +39,8 @@ public class WpWaveProfile : MonoBehaviour
   public float amplitude4 = 1.0f;
   public float choppiness4 = 0.1f;
   public float speed4 = 5.0f;
+  public float strength4 = 1.0f;
+  public float flowSpeed4 = 1.0f;
   public Vector2 gridScale4 = new Vector2(1.0f, 1.0f);
 
   [HideInInspector]
@@ -49,6 +57,10 @@ public class WpWaveProfile : MonoBehaviour
   public Vector2[] gridScale = new Vector2[4];
   [HideInInspector]
   public bool[] needsRecreate = new bool[4];
+  [HideInInspector]
+  public float[] strength = new float[4];
+  [HideInInspector]
+  public float[] flowSpeed = new float[4];
 
   private Material gridCombineMat;
 
@@ -73,6 +85,16 @@ public class WpWaveProfile : MonoBehaviour
     amplitude[1] = amplitude2;
     amplitude[2] = amplitude3;
     amplitude[3] = amplitude4;
+
+    strength[0] = strength1;
+    strength[1] = strength2;
+    strength[2] = strength3;
+    strength[3] = strength4;
+
+    flowSpeed[0] = flowSpeed1;
+    flowSpeed[1] = flowSpeed2;
+    flowSpeed[2] = flowSpeed3;
+    flowSpeed[3] = flowSpeed4;
 
     choppiness[0] = choppiness1;
     choppiness[1] = choppiness2;
@@ -108,6 +130,9 @@ public class WpWaveProfile : MonoBehaviour
       gridCombineMat.SetTextureScale("_WpGridTex2", gridScale2);
       gridCombineMat.SetTextureScale("_WpGridTex3", gridScale3);
       gridCombineMat.SetTextureScale("_WpGridTex4", gridScale4);
+
+      gridCombineMat.SetFloatArray("_strength", strength);
+      gridCombineMat.SetFloatArray("_flowSpeeds", flowSpeed);
     }
   }
 }

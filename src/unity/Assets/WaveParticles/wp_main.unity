@@ -434,7 +434,6 @@ Transform:
   - {fileID: 834215066}
   - {fileID: 723498131}
   - {fileID: 1155032699}
-  - {fileID: 828816800}
   m_Father: {fileID: 995304123}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -462,30 +461,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4303c967c6f816418a9c2f7ac972326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numParticles1: 300
+  numParticles1: 600
   particleSize1: 5
-  amplitude1: 0.1
-  choppiness1: 0.1
-  speed1: 5
-  gridScale1: {x: 1, y: 1}
-  numParticles2: 0
+  amplitude1: 0.25
+  choppiness1: 0
+  speed1: 2
+  strength1: 1
+  flowSpeed1: 0.65
+  gridScale1: {x: 0.123, y: 0.125}
+  numParticles2: 600
   particleSize2: 5
-  amplitude2: 1
-  choppiness2: 0.1
+  amplitude2: 0.1
+  choppiness2: 0
   speed2: 5
-  gridScale2: {x: 1, y: 1}
-  numParticles3: 0
+  strength2: -0.5
+  flowSpeed2: 1
+  gridScale2: {x: 0.345, y: 0.346}
+  numParticles3: 600
   particleSize3: 5
-  amplitude3: 1
-  choppiness3: 0.1
-  speed3: 5
-  gridScale3: {x: 1, y: 1}
-  numParticles4: 0
+  amplitude3: 0.0534
+  choppiness3: 0
+  speed3: 8
+  strength3: -1.2
+  flowSpeed3: 2
+  gridScale3: {x: 0.676, y: 0.634}
+  numParticles4: 600
   particleSize4: 5
-  amplitude4: 1
-  choppiness4: 0.1
-  speed4: 5
-  gridScale4: {x: 1, y: 1}
+  amplitude4: 0.0278
+  choppiness4: 0
+  speed4: 10
+  strength4: 2
+  flowSpeed4: 3
+  gridScale4: {x: 1.235, y: 1.762}
   numParticles: 00000000000000000000000000000000
   particleSize:
   - 0
@@ -513,6 +520,16 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   needsRecreate: 00000000
+  strength:
+  - 0
+  - 0
+  - 0
+  - 0
+  flowSpeed:
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!4 &632841573 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 386033b9b0ae11a40bbd970400b6d7c6,
@@ -621,7 +638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &776269705
 Transform:
   m_ObjectHideFlags: 0
@@ -648,67 +665,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridIndex: 2
   wpShader: {fileID: 4800000, guid: 6b4dbb27dc65a8b4b8ac389cc7093e50, type: 3}
-  wpGridTex: {fileID: 8400000, guid: 75616a77f5af86a4383e4da994c89334, type: 2}
-  mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &828816799
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 828816800}
-  - component: {fileID: 828816802}
-  - component: {fileID: 828816801}
-  m_Layer: 9
-  m_Name: Grid1 (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &828816800
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 828816799}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 135.5, y: 9, z: 0}
-  m_LocalScale: {x: 512, y: 512, z: 512}
-  m_Children: []
-  m_Father: {fileID: 566790412}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &828816801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 828816799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7f1d7afc5dc7ec4ab6fa33a21ede643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: LodDataAnimatedWaves
-  _cullExcludeLayers: []
-  _cullIncludeLayers: []
-  _logErrorIfLayerMissing: 1
---- !u!114 &828816802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 828816799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: def781e0726ff61479c7faadd925109e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridIndex: 0
-  wpShader: {fileID: 4800000, guid: 6b4dbb27dc65a8b4b8ac389cc7093e50, type: 3}
-  wpGridTex: {fileID: 8400000, guid: eb1f6c300ee165344af52e0ad5707ac1, type: 2}
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &834215065
 GameObject:
@@ -725,7 +681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &834215066
 Transform:
   m_ObjectHideFlags: 0
@@ -752,7 +708,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridIndex: 3
   wpShader: {fileID: 4800000, guid: 6b4dbb27dc65a8b4b8ac389cc7093e50, type: 3}
-  wpGridTex: {fileID: 8400000, guid: 00decd3987bcad740a6f7740afbdcd7b, type: 2}
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &995304122
 GameObject:
@@ -910,6 +865,22 @@ Prefab:
     - target: {fileID: 478202, guid: 8454e29c2a033974fb559f5f8eff1918, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417796, guid: 8454e29c2a033974fb559f5f8eff1918, type: 2}
+      propertyPath: _minTexelsPerWave
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417796, guid: 8454e29c2a033974fb559f5f8eff1918, type: 2}
+      propertyPath: _minScale
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417796, guid: 8454e29c2a033974fb559f5f8eff1918, type: 2}
+      propertyPath: _maxScale
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417796, guid: 8454e29c2a033974fb559f5f8eff1918, type: 2}
+      propertyPath: _baseVertDensity
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8454e29c2a033974fb559f5f8eff1918, type: 2}
@@ -1115,7 +1086,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridIndex: 0
   wpShader: {fileID: 4800000, guid: 6b4dbb27dc65a8b4b8ac389cc7093e50, type: 3}
-  wpGridTex: {fileID: 8400000, guid: eb1f6c300ee165344af52e0ad5707ac1, type: 2}
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1511280599
 GameObject:
@@ -1132,7 +1102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1511280600
 Transform:
   m_ObjectHideFlags: 0
@@ -1159,8 +1129,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridIndex: 1
   wpShader: {fileID: 4800000, guid: 6b4dbb27dc65a8b4b8ac389cc7093e50, type: 3}
-  wpGridTex: {fileID: 8400000, guid: 71d096ef59cd45f43befeea880daaa12, type: 2}
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1556435496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1556435500}
+  - component: {fileID: 1556435499}
+  - component: {fileID: 1556435498}
+  - component: {fileID: 1556435497}
+  m_Layer: 0
+  m_Name: Capsule (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!136 &1556435497
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556435496}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1556435498
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556435496}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1556435499
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556435496}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1556435500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556435496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 70.85, y: 10.01, z: 36.72}
+  m_LocalScale: {x: 2, y: 5, z: 2}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1566317004
 GameObject:
   m_ObjectHideFlags: 0
