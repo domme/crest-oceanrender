@@ -8,10 +8,9 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Ocean
   m_Shader: {fileID: 4800000, guid: ab8340fbe8fe00f4ab5137208b3a8759, type: 3}
-  m_ShaderKeywords: _APPLYNORMALMAPPING_ON _CAUSTICS_ON _COMPILESHADERWITHDEBUGINFO_ON
-    _COMPUTEDIRECTIONALLIGHT_ON _DEBUGMULTIPLYBYLIGHT0COLOR_ON _FOAM3DLIGHTING_ON
-    _FOAM_ON _SUBSURFACEHEIGHTLERP_ON _SUBSURFACESCATTERING_ON _SUBSURFACESHALLOWCOLOUR_ON
-    _TRANSPARENCY_ON
+  m_ShaderKeywords: _CAUSTICS_ON _COMPILESHADERWITHDEBUGINFO_ON _COMPUTEDIRECTIONALLIGHT_ON
+    _DEBUGMULTIPLYBYLIGHT0COLOR_ON _FOAM3DLIGHTING_ON _FOAM_ON _SUBSURFACEHEIGHTLERP_ON
+    _SUBSURFACESCATTERING_ON _TRANSPARENCY_ON
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -75,18 +74,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ApplyFlowToNormals: 0
-    - _ApplyNormalMapping: 1
+    - _ApplyNormalMapping: 0
     - _BumpAmt: 0.514
     - _Caustics: 1
     - _CausticsBase: 0.07
     - _CausticsBias: 0.7
-    - _CausticsDepthOfField: 0.33
-    - _CausticsDistortionScale: 10
-    - _CausticsDistortionStrength: 0.075
-    - _CausticsFocalDepth: 2
-    - _CausticsStrength: 3.2
-    - _CausticsTextureAverage: 0.07
-    - _CausticsTextureScale: 5
+    - _CausticsDepthOfField: 2.77
+    - _CausticsDistortionScale: 11.8
+    - _CausticsDistortionStrength: 0
+    - _CausticsFocalDepth: 6.1
+    - _CausticsStrength: 2.88
+    - _CausticsTextureAverage: 0.276
+    - _CausticsTextureScale: 12.17
     - _CompileShaderWithDebugInfo: 1
     - _ComputeDirectionalLight: 1
     - _CullMode: 2
@@ -102,7 +101,7 @@ Material:
     - _Foam: 1
     - _Foam3DLighting: 1
     - _FoamScale: 10
-    - _FresnelPower: 5
+    - _FresnelPower: 9.18
     - _Invert: 1
     - _MipBias: 0
     - _Moving: 0.17
@@ -115,9 +114,9 @@ Material:
     - _S: 1
     - _Shadows: 0
     - _ShorelineFoamMinDepth: 0.27
-    - _SkyDirectionality: 0.875
+    - _SkyDirectionality: 0.675
     - _StartLevel: 0.157
-    - _SubSurfaceBase: 0.24
+    - _SubSurfaceBase: 1.155
     - _SubSurfaceCrestColour: 1
     - _SubSurfaceDepthMax: 9.4
     - _SubSurfaceDepthPower: 2.57
@@ -125,9 +124,9 @@ Material:
     - _SubSurfaceHeightMax: 24.9
     - _SubSurfaceHeightPower: 1.68
     - _SubSurfaceScattering: 1
-    - _SubSurfaceShallowColour: 1
-    - _SubSurfaceSun: 4.85
-    - _SubSurfaceSunFallOff: 7.11
+    - _SubSurfaceShallowColour: 0
+    - _SubSurfaceSun: 3.18
+    - _SubSurfaceSunFallOff: 10.27
     - _TexelSize: 0.125
     - _TextureRes: 1024
     - _Transparency: 1
@@ -155,7 +154,7 @@ Material:
     - _SkyBase: {r: 0.55200005, g: 0.85242355, b: 1, a: 1}
     - _SkyTowardsSun: {r: 2.6390157, g: 1.8217498, b: 0.9236555, a: 1}
     - _SubSurface: {r: 0, g: 0.48, b: 0.36, a: 1}
-    - _SubSurfaceColour: {r: 0.10196078, g: 0.57254905, b: 0.5256646, a: 1}
+    - _SubSurfaceColour: {r: 0.07369172, g: 0.5882173, b: 0.6792453, a: 1}
     - _SubSurfaceCrestColour: {r: 0.42, g: 0.69, b: 0.52, a: 1}
     - _SubSurfaceShallowCol: {r: 0.552, g: 1, b: 1, a: 1}
     - _SubSurfaceShallowColShadow: {r: 0.14417942, g: 0.2264151, b: 0.21173015, a: 1}

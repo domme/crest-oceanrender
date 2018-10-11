@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WpCombineGrids
-  m_Shader: {fileID: 4800000, guid: e4e144a97e4921e479a08c9d02b65739, type: 3}
+  m_Name: FBMDisplacement
+  m_Shader: {fileID: 4800000, guid: 8a1e12c0238d0f749b6c66cef40f987b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -58,28 +58,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _WpGridTex:
-        m_Texture: {fileID: 8400000, guid: eb1f6c300ee165344af52e0ad5707ac1, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _WpGridTex1:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0.123, y: 0.125}
-        m_Offset: {x: 0, y: 0}
-    - _WpGridTex2:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0.345, y: 0.346}
-        m_Offset: {x: 0, y: 0}
-    - _WpGridTex3:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0.676, y: 0.634}
-        m_Offset: {x: 0, y: 0}
-    - _WpGridTex4:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1.235, y: 1.762}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BaseGridSize: 32
+    - _Amplitude: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -87,19 +67,20 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GridDebug: 0
     - _Metallic: 0
     - _Mode: 0
-    - _NumGrids: 4
+    - _NumOctaves: 4
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TwoScales: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - _AmplitudeMods: {r: 2.2, g: 5.62, b: 0.25, a: 0.125}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FlowDir: {r: 1, g: 1.5, b: 0, a: 0}
+    - _FlowDir: {r: 20, g: 20, b: 0, a: 0}
+    - _FlowSpeeds: {r: 0.2, g: 1, b: 1, a: 1}
+    - _Freqs: {r: 0.1, g: 2.32, b: 5, a: 14.42}

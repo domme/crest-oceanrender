@@ -6,6 +6,7 @@ Shader "WaveParticles/WpCombineGrids"
     _GridDebug("GridDebug", int) = 0
     _FlowDir("FlowDir", Vector) = (1,1,0,0)
     _TwoScales("TwoScales", int) = 0
+    _NoiseTex("Noise Texture", 2D) = "white" {}
   }
 
 	Category
@@ -59,6 +60,9 @@ Shader "WaveParticles/WpCombineGrids"
 
         uniform float4 _FlowDir;
 
+        uniform sampler2D _NoiseTex;
+        uniform float4 _NoiseTex_ST;
+
 				v2f vert( appdata_t v )
 				{
           v2f o;
@@ -77,6 +81,7 @@ Shader "WaveParticles/WpCombineGrids"
 				float4 frag (v2f input) : SV_Target
 				{
           float2 baseUv = input.worldPos.xz / 32.0;
+          float2 baseNoiseUv = input.worldPos.xz / 512.0;
           
           float interval = 1.0;
           float timeInt = _Time.x / (2.0 * interval);
@@ -85,43 +90,21 @@ Shader "WaveParticles/WpCombineGrids"
           float3 wpGridDispA[4];
           float3 wpGridDispB[4];
 
-          if (_TwoScales)
-          {
-              float scaleMain = 1;
-              float scaleDetail = 1;
+          float2 gridUv = baseUv * _WpGridTex1_ST.xy;
+          wpGridDispA[0] = _strength[0] * SampleWpGrid(_WpGridTex1, gridUv, _FlowDir * _flowSpeeds[0], fTime.x) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[0], fTime.x);
+          wpGridDispB[0] = _strength[0] * SampleWpGrid(_WpGridTex1, gridUv, _FlowDir * _flowSpeeds[0], fTime.y) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[0], fTime.y);
 
-              wpGridDispA[0] = _strength[0] * scaleMain * SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy, _FlowDir * _flowSpeeds[0], fTime.x);
-              wpGridDispA[1] = _strength[1] * scaleMain * SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy, _FlowDir * _flowSpeeds[1], fTime.x);
-              wpGridDispA[2] = _strength[2] * scaleMain * SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy, _FlowDir * _flowSpeeds[2], fTime.x);
-              wpGridDispA[3] = _strength[3] * scaleMain * SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy, _FlowDir * _flowSpeeds[3], fTime.x);
+          gridUv = baseUv * _WpGridTex2_ST.xy;
+          wpGridDispA[1] = _strength[1] * SampleWpGrid(_WpGridTex2, gridUv, _FlowDir * _flowSpeeds[1], fTime.x) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[1], fTime.x);
+          wpGridDispB[1] = _strength[1] * SampleWpGrid(_WpGridTex2, gridUv, _FlowDir * _flowSpeeds[1], fTime.y) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[1], fTime.y);
 
-              wpGridDispA[0] += _strength[0] * scaleDetail * SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy * 2.0, _FlowDir * _flowSpeeds[0], fTime.x);
-              wpGridDispA[1] += _strength[1] * scaleDetail * SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy * 2.0, _FlowDir * _flowSpeeds[1], fTime.x);
-              wpGridDispA[2] += _strength[2] * scaleDetail * SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy * 2.0, _FlowDir * _flowSpeeds[2], fTime.x);
-              wpGridDispA[3] += _strength[3] * scaleDetail * SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy * 2.0, _FlowDir * _flowSpeeds[3], fTime.x);
-
-              wpGridDispB[0] = _strength[0] * scaleMain * SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy, _FlowDir * _flowSpeeds[0], fTime.y);
-              wpGridDispB[1] = _strength[1] * scaleMain * SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy, _FlowDir * _flowSpeeds[1], fTime.y);
-              wpGridDispB[2] = _strength[2] * scaleMain * SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy, _FlowDir * _flowSpeeds[2], fTime.y);
-              wpGridDispB[3] = _strength[3] * scaleMain * SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy, _FlowDir * _flowSpeeds[3], fTime.y);
-
-              wpGridDispB[0] += _strength[0] * scaleDetail * SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy * 2.0, _FlowDir * _flowSpeeds[0], fTime.y);
-              wpGridDispB[1] += _strength[1] * scaleDetail * SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy * 2.0, _FlowDir * _flowSpeeds[1], fTime.y);
-              wpGridDispB[2] += _strength[2] * scaleDetail * SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy * 2.0, _FlowDir * _flowSpeeds[2], fTime.y);
-              wpGridDispB[3] += _strength[3] * scaleDetail * SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy * 2.0, _FlowDir * _flowSpeeds[3], fTime.y);
-          }
-          else
-          {
-              wpGridDispA[0] = _strength[0] * SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy, _FlowDir * _flowSpeeds[0], fTime.x);
-              wpGridDispA[1] = _strength[1] * SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy, _FlowDir * _flowSpeeds[1], fTime.x);
-              wpGridDispA[2] = _strength[2] * SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy, _FlowDir * _flowSpeeds[2], fTime.x);
-              wpGridDispA[3] = _strength[3] * SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy, _FlowDir * _flowSpeeds[3], fTime.x);
-
-              wpGridDispB[0] = _strength[0] * SampleWpGrid(_WpGridTex1, baseUv * _WpGridTex1_ST.xy, _FlowDir * _flowSpeeds[0], fTime.y);
-              wpGridDispB[1] = _strength[1] * SampleWpGrid(_WpGridTex2, baseUv * _WpGridTex2_ST.xy, _FlowDir * _flowSpeeds[1], fTime.y);
-              wpGridDispB[2] = _strength[2] * SampleWpGrid(_WpGridTex3, baseUv * _WpGridTex3_ST.xy, _FlowDir * _flowSpeeds[2], fTime.y);
-              wpGridDispB[3] = _strength[3] * SampleWpGrid(_WpGridTex4, baseUv * _WpGridTex4_ST.xy, _FlowDir * _flowSpeeds[3], fTime.y);
-          }
+          gridUv = baseUv * _WpGridTex3_ST.xy;
+          wpGridDispA[2] = _strength[2] * SampleWpGrid(_WpGridTex3, gridUv, _FlowDir * _flowSpeeds[2], fTime.x) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[2], fTime.x);
+          wpGridDispB[2] = _strength[2] * SampleWpGrid(_WpGridTex3, gridUv, _FlowDir * _flowSpeeds[2], fTime.y) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[2], fTime.y);
+          
+          gridUv = baseUv * _WpGridTex4_ST.xy;
+          wpGridDispA[3] = _strength[3] * SampleWpGrid(_WpGridTex4, gridUv, _FlowDir * _flowSpeeds[3], fTime.x) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[3], fTime.x);
+          wpGridDispB[3] = _strength[3] * SampleWpGrid(_WpGridTex4, gridUv, _FlowDir * _flowSpeeds[3], fTime.y) * SampleWpGrid(_NoiseTex, gridUv, _FlowDir * _flowSpeeds[3], fTime.y);
           
           int numGrids = (int)clamp(_NumGrids, 0.0, 4.0);
 

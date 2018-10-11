@@ -181,7 +181,7 @@ namespace Crest
 
                 var cart = go.AddComponent<CreateAssignRenderTexture>();
                 cart._targetName = go.name;
-                cart._width = cart._height = (int)(4f * baseVertDensity);
+                cart._width = cart._height = (int)(4 * baseVertDensity);
                 cart._depthBits = 0;
                 cart._format = sim.TextureFormat;
                 cart._wrapMode = TextureWrapMode.Clamp;
