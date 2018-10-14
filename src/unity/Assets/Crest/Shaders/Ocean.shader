@@ -302,10 +302,10 @@ Shader "Ocean/Ocean"
 					half3 n_pixel = n_geom;
 					#if _APPLYNORMALMAPPING_ON
 					#if _APPLYFLOWTONORMALS_ON
-					ApplyNormalMapsWithFlow(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.flow, i.lodAlpha_worldXZUndisplaced_oceanDepth.x, n_pixel);
+					// ApplyNormalMapsWithFlow(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.flow, i.lodAlpha_worldXZUndisplaced_oceanDepth.x, n_pixel);
 					#else
-					n_pixel.xz += SampleNormalMaps(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.lodAlpha_worldXZUndisplaced_oceanDepth.x);
-					n_pixel = normalize(n_pixel);
+					//n_pixel.xz += SampleNormalMaps(i.lodAlpha_worldXZUndisplaced_oceanDepth.yz, i.lodAlpha_worldXZUndisplaced_oceanDepth.x);
+					//n_pixel = normalize(n_pixel);
 					#endif
 					#endif
 

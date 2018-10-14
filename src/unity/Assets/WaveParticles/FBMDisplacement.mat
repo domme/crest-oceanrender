@@ -61,6 +61,9 @@ Material:
     m_Floats:
     - _Amplitude: 1
     - _BumpScale: 1
+    - _Choppiness: -1.47
+    - _CuspFreq: 10
+    - _CuspSize: 0.86
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -78,9 +81,11 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _AmplitudeMods: {r: 2.2, g: 5.62, b: 0.25, a: 0.125}
+    - _AmplitudeMods: {r: 1, g: 2.97, b: 1.06, a: -0.67}
+    - _Choppiness: {r: 10, g: 2.89, b: -5.03, a: 2.95}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CuspFreq: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FlowDir: {r: 20, g: 20, b: 0, a: 0}
-    - _FlowSpeeds: {r: 0.2, g: 1, b: 1, a: 1}
-    - _Freqs: {r: 0.1, g: 2.32, b: 5, a: 14.42}
+    - _FlowDir: {r: 3, g: 3, b: 0, a: 0}
+    - _FlowSpeeds: {r: 1, g: 2, b: 3, a: 9.69}
+    - _Freqs: {r: 1, g: 2.32, b: 6.15, a: 14.86}
